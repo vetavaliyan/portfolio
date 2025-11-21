@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abhinav Shinesh | Creative Dev</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Added 'Gloria Hallelujah' for the handwriting/doodle font -->
+    <link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- VARS & RESET --- */
+        :root {
+            --bg: #fffdf8; /* Slightly warm paper color */
+            --ink: #1a1a1a;
+            --paper: #ffffff;
+            --accent: #ffeb3b; /* Highlighter Yellow */
+            --accent-2: #ff9e9e; /* Soft Red */
+            --accent-3: #a5f3fc; /* Soft Cyan */
+            --border-thick: 3px solid var(--ink);
+            --border-thin: 2px solid var(--ink);
+            --shadow-hard: 6px 6px 0px var(--ink);
+            --shadow-hover: 2px 2px 0px var(--ink);
+            
+            --font-head: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-code: 'JetBrains Mono', monospace;
+            --font-doodle: 'Gloria Hallelujah', cursive;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg);
+            color: var(--ink);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+            /* Dot Pattern Background */
+            background-image: radial-gradient(var(--ink) 1px, transparent 1px);
+            background-size: 24px 24px;
+            background-opacity: 0.1;
+        }
+
+        /* --- UTILS --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .section { padding: 6rem 0; position: relative; }
+        
+        a { text-decoration: none; color: inherit; }
+        
+        /* --- TYPOGRAPHY --- */
+        h1, h2, h3 { font-family: var(--font-head); font-weight: 700; line-height: 1.1; }
+        
+        .doodle-text {
+            font-family: var(--font-doodle);
+            color: var(--light-gray);
+            transform: rotate(-2deg);
+            display: inline-block;
+        }
+
+        .badge {
+            background: var(--ink);
+            color: var(--bg);
+            padding: 0.2rem 0.6rem;
+            font-family: var(--font-code);
+            font-size: 0.8rem;
+            border-radius: 4px;
+        }
+
+        /* --- NAV --- */
+        nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            background: var(--paper);
+            border: var(--border-thick);
+            box-shadow: var(--shadow-hard);
+            z-index: 1000;
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            position: relative;
+        }
+        
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--accent);
+            z-index: -1;
+            transform: skewX(-20deg);
+        }
+
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { font-weight: 600; transition: 0.2s; position: relative;}
+        .nav-links a:hover { color: var(--accent-2); }
+        
+        .nav-links a:hover::after {
+            content: '〰';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-doodle);
+            font-size: 1.2rem;
+        }
+
+        /* --- HERO --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 8rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(3.5rem, 6vw, 6rem);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 span {
+            display: block; /* Stack the names */
+            position: relative;
+        }
+
+        .hero-card {
+            background: var(--paper);
+            border: var(--border-thick);
+            box-shadow: var(--shadow-hard);
+            padding: 2rem;
+            transform: rotate(2deg);
+            position: relative;
+        }
+
+        .hero-card::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 15px;
+            background: rgba(200,200,200,0.3);
+            /* Tape look */
+            border-left: 2px solid rgba(255,255,255,0.5);
+            border-right: 2px solid rgba(255,255,255,0.5);
+        }
+
+        .btn-doodle {
+            display: inline-block;
+            background: var(--accent);
+            border: var(--border-thick);
+            padding: 1rem 2rem;
+            font-weight: 700;
+            box-shadow: var(--shadow-hard);
+            transition: all 0.2s;
+            margin-right: 1rem;
+            cursor: pointer;
+        }
+
+        .btn-doodle:hover {
+            transform: translate(4px, 4px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-outline {
+            background: white;
+        }
+
+        /* --- SKILLS (The "Full & Flourished" Column) --- */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1.5rem;
+            grid-auto-rows: minmax(100px, auto);
+        }
+
+        .bento-item {
+            background: var(--paper);
+            border: var(--border-thick);
+            padding: 2rem;
+            position: relative;
+            transition: transform 0.3s;
+        }
+
+        .bento-item:hover { transform: translateY(-5px); }
+
+        .col-large { grid-column: span 8; }
+        .col-small { grid-column: span 4; }
+        .col-full { grid-column: span 12; }
+
+        /* The specific Full Stack Column user asked for */
+        .full-stack-box {
+            background: var(--ink);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .full-stack-box h3 { color: white; margin-bottom: 1.5rem; font-size: 2rem; }
+
+        .skill-pill-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .skill-pill {
+            background: transparent;
+            border: 1px solid white;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            font-family: var(--font-code);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: 0.2s;
+            cursor: default;
+        }
+
+        .skill-pill:hover {
+            background: white;
+            color: var(--ink);
+            transform: scale(1.05);
+        }
+
+        /* --- PROJECTS --- */
+        .project-card {
+            background: var(--paper);
+            border: var(--border-thick);
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            transition: 0.3s;
+        }
+
+        .project-card:hover {
+            box-shadow: var(--shadow-hard);
+            transform: translate(-2px, -2px);
+        }
+
+        .project-header {
+            background: var(--bg);
+            border-bottom: var(--border-thin);
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .project-body { padding: 1.5rem; flex-grow: 1; }
+
+        /* --- LOGS (Notebook Style) --- */
+        .notebook {
+            background: white;
+            border: var(--border-thick);
+            padding: 0;
+            position: relative;
+        }
+
+        /* Spiral binding effect */
+        .notebook::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: transparent;
+            border-left: 2px dashed var(--light-gray);
+            z-index: 2;
+        }
+
+        .log-entry {
+            padding: 1.5rem 1.5rem 1.5rem 4rem; /* Space for spiral */
+            border-bottom: 1px solid #e0e0e0;
+            position: relative;
+        }
+        
+        .log-entry:last-child { border-bottom: none; }
+
+        /* Blue notebook lines */
+        .log-entry {
+            background-image: linear-gradient(#e8e8e8 1px, transparent 1px);
+            background-size: 100% 1.5rem;
+            line-height: 1.5rem;
+        }
+        
+        .log-content { background: rgba(255,255,255,0.8); display: inline; }
+
+        /* --- CONTACT --- */
+        .contact-footer {
+            background: var(--ink);
+            color: var(--paper);
+            padding: 4rem 2rem;
+            margin-top: 4rem;
+            border-top: 4px solid var(--accent);
+        }
+
+        /* --- DOODLES (SVG Helpers) --- */
+        .doodle-svg {
+            position: absolute;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .col-large, .col-small { grid-column: span 12; }
+            .hero-grid { grid-template-columns: 1fr; }
+            nav { width: 95%; padding: 1rem; }
+            .nav-links { display: none; }
+        }
+        
+        /* Floating Icons */
+        .floater {
+            position: fixed;
+            bottom: 2rem;
+            width: 50px;
+            height: 50px;
+            background: var(--paper);
+            border: var(--border-thick);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+            z-index: 99;
+            box-shadow: 4px 4px 0px var(--ink);
+        }
+        .floater:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--ink); }
+        .f-gh { right: 2rem; background: #f0f0f0; }
+        .f-li { right: 6rem; background: #e1f5fe; }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">Abhinav.SH <span style="color:var(--accent)">★</span></div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#stack">The Stack</a></li>
+            <li><a href="#projects">Work</a></li>
+            <li><a href="#logs">Notebook</a></li>
+        </ul>
+        <a href="#contact" class="btn-doodle" style="padding:0.5rem 1rem; font-size:0.9rem;">Say Hello!</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <!-- Doodles Background -->
+        <svg class="doodle-svg" style="top: 20%; left: 5%; width: 100px;" viewBox="0 0 100 100">
+            <path d="M10,50 Q30,20 50,50 T90,50" fill="none" stroke="var(--ink)" stroke-width="3" />
+        </svg>
+        <svg class="doodle-svg" style="bottom: 20%; right: 10%; width: 80px;" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="40" fill="none" stroke="var(--accent)" stroke-width="4" stroke-dasharray="10,5"/>
+        </svg>
+
+        <div class="container">
+            <div class="hero-grid">
+                <div>
+                    <span class="doodle-text" style="background: var(--accent); padding: 0 10px; font-weight: bold;">AI / ML ENTHUSIAST</span>
+                    <h1>
+                        Abhinav <br> 
+                        <span style="color: white; -webkit-text-stroke: 2px var(--ink);">Shinesh</span>
+                    </h1>
+                    <p style="font-size: 1.1rem; margin-bottom: 2rem; max-width: 600px; font-weight: 400; color: var(--mid-gray);">
+                        Passionate AI/ML fresher with hands-on experience in building data-driven solutions and intelligent systems. Skilled in Python, machine learning, and data preprocessing with a growing interest in NLP and computer vision. Focused on continuous learning, model optimization, and deploying smart applications that solve real-world problems.
+                    </p>
+                    <div>
+                        <a href="#projects" class="btn-doodle">See My Work</a>
+                        <a href="#stack" class="btn-doodle btn-outline">My Skills</a>
+                    </div>
+                </div>
+                
+                <!-- Hero Graphic / Stats -->
+                <div class="hero-card">
+                    <div style="border-bottom: 2px solid var(--ink); padding-bottom: 1rem; margin-bottom: 1rem;">
+                        <span style="font-family: var(--font-code);">current_status.json</span>
+                    </div>
+                    <ul style="list-style: none; font-family: var(--font-code); font-size: 0.9rem;">
+                        <li style="margin-bottom: 0.5rem;">"education": "B.Tech CSE (AI/ML)"</li>
+                        <li style="margin-bottom: 0.5rem;">"focus": ["NLP", "Computer Vision"]</li>
+                        <li style="margin-bottom: 0.5rem;">"certification": "IIT Patna (In Progress)"</li>
+                        <li style="color: green;">"status": "Available for Hire"</li>
+                    </ul>
+                    <!-- Sticker -->
+                    <div style="position: absolute; bottom: -20px; right: -20px; background: var(--accent-2); color: white; padding: 1rem; border-radius: 50%; font-weight: bold; transform: rotate(15deg); border: 2px solid var(--ink);">
+                        2025
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Expertise (Full & Flourished Layout) -->
+    <section id="stack" class="section">
+        <div class="container">
+            <h2 style="margin-bottom: 3rem; font-size: 2.5rem;">Technical Arsenal <span class="doodle-text" style="font-size: 1rem; color: var(--light-gray);">(What I use)</span></h2>
+            
+            <!-- The Bento Grid Layout -->
+            <div class="bento-grid">
+                
+                <!-- CORE AI (Large Box) -->
+                <div class="bento-item col-large" style="background: #fff9c4;"> <!-- Light Yellow -->
+                    <h3>Core AI & Machine Learning</h3>
+                    <p style="margin-bottom: 1.5rem;">Building the brains behind the applications.</p>
+                    <div class="skill-pill-container">
+                        <span class="badge" style="background:white; color:black; border:2px solid black;">Python</span>
+                        <span class="badge" style="background:white; color:black; border:2px solid black;">TensorFlow</span>
+                        <span class="badge" style="background:white; color:black; border:2px solid black;">PyTorch</span>
+                        <span class="badge" style="background:white; color:black; border:2px solid black;">Scikit-Learn</span>
+                        <span class="badge" style="background:white; color:black; border:2px solid black;">Hugging Face</span>
+                        <span class="badge" style="background:white; color:black; border:2px solid black;">RAG Pipelines</span>
+                    </div>
+                    <!-- Doodle Arrow -->
+                    <svg style="position:absolute; right: 20px; bottom: 20px; width: 60px;" viewBox="0 0 50 50">
+                        <path d="M10,40 Q25,10 40,40" fill="none" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    </svg>
+                </div>
+
+                <!-- DATA (Small Box) -->
+                <div class="bento-item col-small" style="background: #e1bee7;"> <!-- Light Purple -->
+                    <h3>Data Eng</h3>
+                    <ul style="list-style: square; padding-left: 1.2rem; margin-top: 1rem;">
+                        <li>SQL & NoSQL</li>
+                        <li>Pandas / NumPy</li>
+                        <li>Power BI Dashboards</li>
+                        <li>ETL Pipelines</li>
+                    </ul>
+                </div>
+
+                <!-- FULL STACK DEVELOPMENT (The Requested "Filled" Column) -->
+                <!-- Using the style from the uploaded photo: Solid buttons, organized look -->
+                <div class="bento-item col-full full-stack-box">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h3>Full Stack Development</h3>
+                        <span class="doodle-text" style="color: var(--accent); transform: rotate(2deg);">My Toolkit</span>
+                    </div>
+                    
+                    <!-- TIGHTLY PACKED SKILLS ROW to fill space -->
+                    <div class="skill-pill-container" style="justify-content: space-between;">
+                        <div class="skill-pill">Java</div>
+                        <div class="skill-pill">C / C++</div>
+                        <div class="skill-pill">Node.js</div>
+                        <div class="skill-pill">React.js</div>
+                        <div class="skill-pill">MongoDB</div>
+                        <div class="skill-pill">FastAPI</div>
+                        <div class="skill-pill">Docker</div>
+                        <div class="skill-pill">Git</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Selected Work -->
+    <section id="projects" class="section">
+        <div class="container">
+            <h2 style="margin-bottom: 3rem; font-size: 2.5rem;">Selected Works <span style="font-size:1rem; background:black; color:white; padding:2px 8px;">LIVE</span></h2>
+            
+            <div id="projectsLoading" style="font-family: var(--font-code);">Fetching from GitHub...</div>
+            
+            <div class="bento-grid" id="projectsContainer" style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); display: grid;">
+                <!-- Projects injected here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Daily Logs (Notebook) -->
+    <section id="logs" class="section" style="background: #f0f4f8;">
+        <div class="container">
+            <div style="max-width: 800px; margin: 0 auto;">
+                <h2 style="text-align: center; margin-bottom: 2rem;">Daily Dev Notebook</h2>
+                
+                <div class="notebook">
+                    <div id="blogsContainer">
+                        <!-- Logs injected here -->
+                    </div>
+                    <!-- Doodle on notebook -->
+                    <div style="position: absolute; bottom: 10px; right: 20px; font-family: var(--font-doodle); opacity: 0.5;">
+                        keep grinding...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Footer -->
+    <footer id="contact" class="contact-footer">
+        <div class="container" style="text-align: center;">
+            <h2 style="font-size: 3rem; margin-bottom: 2rem;">Let's build together.</h2>
+            <p style="margin-bottom: 3rem; font-size: 1.2rem; opacity: 0.8;">Open for opportunities in AI, ML, and Full Stack Engineering.</p>
+            
+            <a href="mailto:shineshabhinav2@gmail.com" class="btn-doodle" style="background: white; color: black;">shineshabhinav2@gmail.com</a>
+            
+            <div style="margin-top: 4rem; font-family: var(--font-code); font-size: 0.8rem; opacity: 0.5;">
+                &copy; 2025 Abhinav Shinesh. Styled with ❤ & Code.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Buttons -->
+    <a href="https://github.com/vetavaliyan" target="_blank" class="floater f-gh" title="GitHub">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/abhinav-shinesh-53502b259" target="_blank" class="floater f-li" title="LinkedIn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+    </a>
+
+    <!-- Logic -->
+    <script>
+        // --- STATIC BLOG DATA ---
+        const myLogs = [
+            {
+                date: "2025-02-20", 
+                title: "Portfolio Redesign", 
+                content: "Switched to a static Neo-Brutalist design. Improved performance and styling significantly."
+            },
+            {
+                date: "2025-02-18", 
+                title: "Deep Dive into Transformers", 
+                content: "Analyzing Self-Attention mechanisms. Implemented a mini-GPT from scratch to understand the math."
+            }
+        ];
+
+        // Render Logs
+        function renderBlogs() {
+            const container = document.getElementById('blogsContainer');
+            if (myLogs.length === 0) {
+                container.innerHTML = `<div style="padding:2rem; text-align:center;">No notes yet.</div>`;
+                return;
+            }
+            myLogs.sort((a, b) => new Date(b.date) - new Date(a.date));
+            container.innerHTML = myLogs.map(log => `
+                <div class="log-entry">
+                    <div style="font-family:var(--font-code); color:var(--light-gray); font-size:0.8rem;">
+                        ${new Date(log.date).toLocaleDateString()}
+                    </div>
+                    <div style="font-weight:700; margin-bottom:0.2rem;">${log.title}</div>
+                    <div class="log-content">${log.content}</div>
+                </div>
+            `).join('');
+        }
+
+        // GitHub Fetcher
+        async function fetchProjects() {
+            const container = document.getElementById('projectsContainer');
+            const loader = document.getElementById('projectsLoading');
+            try {
+                const res = await fetch('https://api.github.com/users/vetavaliyan/repos?sort=updated&per_page=6');
+                const repos = await res.json();
+                loader.style.display = 'none';
+                container.innerHTML = repos.map(repo => `
+                    <div class="project-card">
+                        <div class="project-header">
+                            <span style="font-weight:700;">${repo.name}</span>
+                            <span class="badge">★ ${repo.stargazers_count}</span>
+                        </div>
+                        <div class="project-body">
+                            <p style="font-size:0.9rem; margin-bottom:1rem; color:#555;">
+                                ${repo.description || "No description provided."}
+                            </p>
+                            <div style="font-size:0.8rem; font-family:var(--font-code);">
+                                ${repo.language || "Code"}
+                            </div>
+                        </div>
+                        <a href="${repo.html_url}" target="_blank" style="border-top:2px solid black; padding:0.8rem; text-align:center; background:#f0f0f0; font-weight:600;">
+                            View Code &rarr;
+                        </a>
+                    </div>
+                `).join('');
+            } catch (e) {
+                loader.innerHTML = "Failed to load GitHub data.";
+            }
+        }
+
+        window.onload = () => {
+            renderBlogs();
+            fetchProjects();
+        };
+    </script>
+</body>
+</html>
